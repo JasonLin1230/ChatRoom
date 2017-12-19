@@ -7,6 +7,7 @@
 <%@page contentType="text/html" pageEncoding="UTF-8" errorPage="error.jsp"%>
 <%@page import="java.util.*"%>
 <%@page import="java.sql.*"%>
+<%@page import="org.apache.commons.codec.digest.DigestUtils;"%>
 <!DOCTYPE html>
 <html>
     <head>

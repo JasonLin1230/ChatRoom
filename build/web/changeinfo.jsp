@@ -1,6 +1,6 @@
 <%-- 
-    Document   : NewUser
-    Created on : 2017-12-19, 17:47:07
+    Document   : changeinfo
+    Created on : 2017-12-19, 20:55:52
     Author     : JasonLin
 --%>
 
@@ -19,23 +19,24 @@
             request.setCharacterEncoding("UTF-8");
             Connection conn=null;
             PreparedStatement preparedStmt=null;
-            String Name=new String();
-            if(request.getParameter("username")!=null){
-                Name=request.getParameter("username");
+            String userid=new String();
+            if(request.getParameter("userid")!=null){
+                userid=request.getParameter("userid");
+                String username=request.getParameter("username");
                 String password=request.getParameter("password");
                 try{
                     conn=java.sql.DriverManager.getConnection("jdbc:mysql://localhost/javaee","root","971230");
-                    preparedStmt=conn.prepareStatement("insert into login(username,password)value(?,?)");
-                    preparedStmt.setString(1,Name);
+                    preparedStmt=conn.prepareStatement("update login set username=?,password=? where id=?");
+                    preparedStmt.setString(1,username);
                     preparedStmt.setString(2,password);
+                    preparedStmt.setString(3,userid);
                     int uu=preparedStmt.executeUpdate();
-                    session.setAttribute("cur_name",Name);
                     if(uu==0){
-                        session.setAttribute("login_feedback","注册失败，当前用户名已存在");
-                        response.sendRedirect("login.jsp");
+                        session.setAttribute("change_feedback","修改信息失败，请重试！");
+                        response.sendRedirect("manage.jsp");
                     }else{
-                        session.setAttribute("login_feedback","注册成功，可以登录啦！");
-                        response.sendRedirect("login.jsp");
+                        session.setAttribute("change_feedback","修改成功！");
+                        response.sendRedirect("manage.jsp");
                     }
                 }catch(java.sql.SQLException e){
                     out.println(e.toString());

@@ -1,6 +1,6 @@
 <%-- 
-    Document   : NewUser
-    Created on : 2017-12-19, 17:47:07
+    Document   : del
+    Created on : 2017-12-19, 21:24:32
     Author     : JasonLin
 --%>
 
@@ -22,21 +22,12 @@
             String Name=new String();
             if(request.getParameter("username")!=null){
                 Name=request.getParameter("username");
-                String password=request.getParameter("password");
                 try{
                     conn=java.sql.DriverManager.getConnection("jdbc:mysql://localhost/javaee","root","971230");
-                    preparedStmt=conn.prepareStatement("insert into login(username,password)value(?,?)");
+                    preparedStmt=conn.prepareStatement("delete from login where username=?");
                     preparedStmt.setString(1,Name);
-                    preparedStmt.setString(2,password);
-                    int uu=preparedStmt.executeUpdate();
-                    session.setAttribute("cur_name",Name);
-                    if(uu==0){
-                        session.setAttribute("login_feedback","注册失败，当前用户名已存在");
-                        response.sendRedirect("login.jsp");
-                    }else{
-                        session.setAttribute("login_feedback","注册成功，可以登录啦！");
-                        response.sendRedirect("login.jsp");
-                    }
+                    preparedStmt.executeUpdate();
+                    response.sendRedirect("manage.jsp");
                 }catch(java.sql.SQLException e){
                     out.println(e.toString());
                 }finally{

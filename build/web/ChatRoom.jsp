@@ -7,6 +7,7 @@
 <%@page contentType="text/html" pageEncoding="UTF-8" errorPage="error.jsp"%>
 <%@page import="java.util.*"%>
 <%@page import="java.sql.*"%>
+<%@page import="org.apache.commons.codec.digest.DigestUtils;"%>
 <!DOCTYPE html>
 <html>
     <head>
@@ -27,6 +28,7 @@
             ResultSet sqlRst=null;
             String promt=new String();
             String Name=new String();
+//            String userid=new String();
             String first="1";
             if(request.getParameter("username")!=null){
                 Name=request.getParameter("username");
@@ -42,8 +44,12 @@
                         if(!pass.equals( new String(sqlRst.getString("password")))){
                             session.setAttribute("login_feedback","密码不正确！");
                             response.sendRedirect("login.jsp");
+                        }else if(identity.equals("admin")){
+                            session.setAttribute("login_feedback","");
+                            response.sendRedirect("manage.jsp");
                         }else{
                             session.setAttribute("login_feedback","");
+//                            userid=new String(sqlRst.getString("password"));
                         }
                     }else{
                         session.setAttribute("login_feedback","当前账户不存在！");
