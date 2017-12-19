@@ -26,7 +26,7 @@ function createCode() {
     checkCode.css({'color':_code_color2[color2Num],'backgroundColor':_code_color1[color1Num]});
 }
 function validate(){
-    var form=$("form");
+    var form=$(".login_form");
     var inputCode = $(".code_input");
     var flag=true;
     form.submit(function(){
@@ -49,6 +49,7 @@ $(function () {
     var name_input=$(".name_input");
     var nav_slider_bar=$('.nav-slider-bar');
     var signin_misc=$(".signin-misc-wrapper");
+    var login_feedback=$("#login_feedback").text();
     nav_labels.click(function () {
         $(this).addClass('active').siblings('label').removeClass('active');
         var le=($(this).index()-1)*3;
@@ -66,8 +67,34 @@ $(function () {
     checkCode.click(function(){
         createCode();
     });
-    layer.msg('密码默认是：123', {
-        area: ['200px'],
+    console.log(login_feedback);
+    if(login_feedback==="" || login_feedback==="null"){
+        login_feedback="密码默认是：123";
+    }
+    layer.msg(login_feedback, {
+        area: ['280px'],
         offset: '50px'
     });
+    
+    var ModalEffects = (function() {//弹出框
+        function init() {
+            var overlay = $('.md-overlay');
+            var close=$(".md-close");
+            $('.md-trigger' ).click(function() {
+                var modal_num=$(this).attr( 'data-modal' );
+                var modal = $('#'+modal_num);
+                function removeModal() {
+                    modal.removeClass('md-show');
+                }
+                modal.addClass('md-show');
+                overlay.click(function () {
+                    removeModal();
+                });
+                close.click(function() {
+                    removeModal();
+                });
+            });
+        };
+        init();
+    })();
 });

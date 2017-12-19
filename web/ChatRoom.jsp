@@ -13,6 +13,7 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <meta http-equiv="pragma" content="no-cache">
         <title>聊天室</title>
+        <link rel="stylesheet" href="./css/modal.css"/>
         <link rel="stylesheet" href="./css/chatroom.css"/>
     </head>
     <body>
@@ -22,25 +23,36 @@
 //          由于用户量较小，字段相同，且为了方便管理，登录只建一个数据表
             request.setCharacterEncoding("UTF-8");
             Connection conn=null;
-            java.lang.String strConn;
             PreparedStatement preparedStmt=null;
             ResultSet sqlRst=null;
-            try{
-                conn=java.sql.DriverManager.getConnection("jdbc:mysql://localhost/javaee","root","971230");
-                preparedStmt=conn.prepareStatement("select username,password from login where username = ?");
-            }catch(java.sql.SQLException e){
-                out.println(e.toString());
-            }finally{
-                if(conn!=null) conn.close();
-            }
             String promt=new String();
             String Name=new String();
             String first="1";
             if(request.getParameter("username")!=null){
                 Name=request.getParameter("username");
                 String pass=request.getParameter("password");
-                if(!pass.equals("123")){
-                    response.sendRedirect("login.jsp");
+                String identity=request.getParameter("identity");
+                try{
+                    conn=java.sql.DriverManager.getConnection("jdbc:mysql://localhost/javaee","root","971230");
+                    preparedStmt=conn.prepareStatement("select username,password,identity from login where username=? and identity=?");
+                    preparedStmt.setString(1,Name);
+                    preparedStmt.setString(2,identity);
+                    sqlRst=preparedStmt.executeQuery();
+                    if(sqlRst.next()){
+                        if(!pass.equals( new String(sqlRst.getString("password")))){
+                            session.setAttribute("login_feedback","密码不正确！");
+                            response.sendRedirect("login.jsp");
+                        }else{
+                            session.setAttribute("login_feedback","");
+                        }
+                    }else{
+                        session.setAttribute("login_feedback","当前账户不存在！");
+                        response.sendRedirect("login.jsp");
+                    }
+                }catch(java.sql.SQLException e){
+                    out.println(e.toString());
+                }finally{
+                    if(conn!=null) conn.close();
                 }
                 session.setAttribute("last_succ",Name);
                 first="1";
@@ -70,9 +82,11 @@
                     promt="这是您第一次登录";
                 }
             }
+            String change_feedback=(String)session.getAttribute("change_feedback");
             %>
-            <div id="none"><%=promt%></div>
-            <div id="none2"><%=first%></div>
+            <div id="none" class="none"><%=promt%></div>
+            <div id="none2" class="none"><%=first%></div>
+            <div id="none3" class="none"><%=change_feedback%></div>
             <div class="main">
                 <div class="room">
                     <p class="cur_user">欢迎您，<%=Name%></p>
@@ -103,48 +117,51 @@
                     <ul>
                     <%for(int i=0;i<names.size();i++){
                         String temp=(String)names.get(i);
-                        out.println("<li>"+temp+"</li>");
+                        out.println("<li class='member_li'>"+temp+"</li>");
                     }
                     %>
                     </ul>
-                    <form action="out.jsp" method="post" id="out_form">
-                        <input type="text" style="display: none;" value="<%=Name%>" name="username">
-                        <button type="submit" id="out">退出</button>
-                    </form>
                 </div>
+                <div class="change_btn">
+                    <a type="submit" class="md-trigger" data-modal="modal-1">修改密码</a>
+                </div>
+                <form action="out.jsp" method="post" id="out_form" class="top_form">
+                    <input type="text" style="display: none;" value="<%=Name%>" name="username">
+                    <button type="submit" id="change">退出</button>
+                </form>
+                <form action="dispose.jsp" method="post" id="dispose_form" class="top_form">
+                    <input type="text" style="display: none;" value="<%=Name%>" name="username">
+                    <button type="submit" id="out">退出并销毁</button>
+                </form>
             </div>
             <p class="copy fadeIn animated">Copyright © 2017.JasonLin</p>
         </div>
+        <div class="md-modal md-effect-1" id="modal-1">
+            <div class="md-content">
+                <h3>修改密码</h3>
+                <form action="ChangePass.jsp" method="post">
+                    <ul>
+                        <li class="input-wrap" style="display: none;">
+                            <input type="text" name="username" value="<%=Name%>">
+                        </li>
+                        <li class="input-wrap">
+                            <input required type="text" placeholder="原始密码" name="old_password">
+                        </li>
+                        <li class="input-wrap">
+                            <input required type="password" placeholder="新密码" name="new_password">
+                        </li>
+                    </ul>
+                    <div class="exp-btn-group">
+                        <button type="submit" class="md-sub">确定</button>
+                    </div>
+                </form>
+            </div>
+	</div>
+        <div class="md-overlay"></div>
     <canvas id="Mycanvas" style="z-index: -1;position:absolute;top: 0;width: 100%;height: 100%;"></canvas>
     <script src="./js/jquery.min.js"></script>
     <script src="./js/canvas.js"></script>
     <script src="./js/layer.js"></script>
-    <script>
-        var promt=$("#none").text();
-        var first=$("#none2").text();
-        if(first==="1"){
-            layer.msg(promt, {
-                area: ['200px','50px']
-            });
-        };
-        var send_btn=$("#send_meg");
-        var textarea=$("textarea");
-        send_btn.click(function(){
-            if(textarea.val()===""){
-                layer.msg('消息不能为空哦', {icon: 5});
-            }
-        });
-//        var out=$("#out_form");
-//        out.submit(function(){
-//            var sub_flag=true;
-//            layer.msg('你确定你很帅么？', {
-//                time: 0 //不自动关闭
-//                ,btn: ['取消', '确定']
-//                ,yes:sub_flag=false
-//                }
-//            });
-//            return sub_flag;
-//        });
-    </script>
+    <script src="./js/chatroom.js"></script>
     </body>
 </html>
