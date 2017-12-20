@@ -20,6 +20,7 @@
             Connection conn=null;
             PreparedStatement preparedStmt=null;
             String Name=new String();
+            String requrl=request.getHeader("Referer");//判断请求来源
             if(request.getParameter("username")!=null){
                 Name=request.getParameter("username");
                 String password=request.getParameter("password");
@@ -34,7 +35,8 @@
                         session.setAttribute("login_feedback","注册失败，当前用户名已存在");
                         response.sendRedirect("login.jsp");
                     }else{
-                        session.setAttribute("login_feedback","注册成功，可以登录啦！");
+//                        session.setAttribute("login_feedback","注册成功，可以登录啦！");
+                        session.setAttribute("login_feedback",requrl);
                         response.sendRedirect("login.jsp");
                     }
                 }catch(java.sql.SQLException e){
