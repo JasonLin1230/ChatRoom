@@ -48,7 +48,7 @@
                     <td><%=sqlRst.getString("password")%></td>
                     <td>
                         <a href="#" class="md-trigger" option="modify" data-modal="modal-1" user-id="<%=sqlRst.getString("id")%>" user-name="<%=sqlRst.getString("username")%>" user-pass="<%=sqlRst.getString("password")%>">修改</a>
-                        <form action="del.jsp" method="post" style="display: inline-block;">
+                        <form action="dispose.jsp" method="post" style="display: inline-block;">
                             <input type="text" name="username" style="display: none;" value="<%=sqlRst.getString("username")%>">
                             <button type="submit" class="op_btn" onclick="return confirm('您确认要执行删除吗?')">删除</button>
                         </form>
