@@ -61,7 +61,7 @@ $(function(){
     })();
     form.submit(function(){
         var flag=true;
-        if(userid_inp.val()==="" && userid_inp.val()==="" && userid_inp.val()===""){
+        if(userid_inp.val()==="" && username_inp.val()==="" && userpass_inp.val()===""){
             flag=false;
             layer.msg("不能全为空！", {
                 area: ['280px'],
@@ -70,4 +70,11 @@ $(function(){
         }
         return flag;
     });
+    var manage_op_feedback=$("#manage_op_feedback").text();
+    if(manage_op_feedback!=="null" && manage_op_feedback!==""){
+        layer.msg(manage_op_feedback, {
+                area: ['280px','50px'],
+                offset: '50px'
+            });
+    }
 });

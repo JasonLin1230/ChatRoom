@@ -26,7 +26,14 @@
                     conn=java.sql.DriverManager.getConnection("jdbc:mysql://localhost/javaee","root","971230");
                     preparedStmt=conn.prepareStatement("delete from login where username=?");
                     preparedStmt.setString(1,Name);
-                    preparedStmt.executeUpdate();
+                    int uu=preparedStmt.executeUpdate();
+                    if(uu==0){
+                        session.setAttribute("manage_op_feedback","操作失败，请重试！");
+                        response.sendRedirect("manage.jsp");
+                    }else{
+                        session.setAttribute("manage_op_feedback","操作成功！");
+                        response.sendRedirect("manage.jsp");
+                    }
                     response.sendRedirect("manage.jsp");
                 }catch(java.sql.SQLException e){
                     out.println(e.toString());

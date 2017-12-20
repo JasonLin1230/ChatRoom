@@ -32,6 +32,7 @@
                 </tr>
             <%
                 request.setCharacterEncoding("UTF-8");
+                String manage_op_feedback=(String)session.getAttribute("manage_op_feedback");
                 Connection conn=null;
                 ResultSet sqlRst=null;
                 PreparedStatement preparedStmt=null;
@@ -74,7 +75,7 @@
                     <li class="input-wrap">
                         <input type="text" placeholder="用户名" name="username" id="username">
                     </li>
-<!--                    <li class="input-wrap">
+<!--                <li class="input-wrap">
                         <input required type="text" placeholder="手机号（用于找回密码）" name="phone">
                     </li>-->
                     <li class="input-wrap">
@@ -88,6 +89,7 @@
         </div>
     </div>
     <div class="md-overlay"></div>
+    <div id="manage_op_feedback" style="visibility: hidden;"><%=manage_op_feedback%></div>
     <canvas id="Mycanvas" style="z-index: -1;position:absolute;top: 0;width: 100%;height: 100%;"></canvas>
     <script src="./js/jquery.min.js"></script>
     <script src="./js/canvas.js"></script>

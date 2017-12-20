@@ -36,6 +36,7 @@
                             session.setAttribute("login_feedback","注册失败，当前用户名已存在");
                             response.sendRedirect("login.jsp");
                         }else{
+                            session.setAttribute("manage_op_feedback","操作失败，请重试！");
                             response.sendRedirect("manage.jsp");
                         }
                     }else{
@@ -43,6 +44,7 @@
                             session.setAttribute("login_feedback","注册成功，可以登录啦！");
                             response.sendRedirect("login.jsp");
                         }else{
+                            session.setAttribute("manage_op_feedback","操作成功！");
                             response.sendRedirect("manage.jsp");
                         }
                     }

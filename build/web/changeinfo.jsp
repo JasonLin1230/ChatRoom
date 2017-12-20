@@ -32,10 +32,10 @@
                     preparedStmt.setString(3,userid);
                     int uu=preparedStmt.executeUpdate();
                     if(uu==0){
-                        session.setAttribute("change_feedback","修改信息失败，请重试！");
+                        session.setAttribute("manage_op_feedback","操作失败，请重试！");
                         response.sendRedirect("manage.jsp");
                     }else{
-                        session.setAttribute("change_feedback","修改成功！");
+                        session.setAttribute("manage_op_feedback","操作成功！");
                         response.sendRedirect("manage.jsp");
                     }
                 }catch(java.sql.SQLException e){
