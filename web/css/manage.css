@@ -21,7 +21,7 @@ h1{
 }
 .content{
     width: 960px;
-    margin: 0 auto;
+    margin: 0 auto 20px;
     position: relative;
 }
 table{

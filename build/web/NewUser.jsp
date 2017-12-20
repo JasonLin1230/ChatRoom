@@ -32,12 +32,19 @@
                     int uu=preparedStmt.executeUpdate();
                     session.setAttribute("cur_name",Name);
                     if(uu==0){
-                        session.setAttribute("login_feedback","注册失败，当前用户名已存在");
-                        response.sendRedirect("login.jsp");
+                        if((requrl.indexOf("login.jsp"))!=-1){
+                            session.setAttribute("login_feedback","注册失败，当前用户名已存在");
+                            response.sendRedirect("login.jsp");
+                        }else{
+                            response.sendRedirect("manage.jsp");
+                        }
                     }else{
-//                        session.setAttribute("login_feedback","注册成功，可以登录啦！");
-                        session.setAttribute("login_feedback",requrl);
-                        response.sendRedirect("login.jsp");
+                        if((requrl.indexOf("login.jsp"))!=-1){
+                            session.setAttribute("login_feedback","注册成功，可以登录啦！");
+                            response.sendRedirect("login.jsp");
+                        }else{
+                            response.sendRedirect("manage.jsp");
+                        }
                     }
                 }catch(java.sql.SQLException e){
                     out.println(e.toString());

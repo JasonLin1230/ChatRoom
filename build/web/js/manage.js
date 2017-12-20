@@ -3,13 +3,17 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+var layer=layer;
 $(function(){
+    var form=$(".md-content form");
+    var userid_inp=$("#userid");
+    var username_inp=$("#username");
+    var userpass_inp=$("#userpass");
     var ModalEffects = (function() {//弹出框
         function init() {
             var overlay = $('.md-overlay');
             var close=$(".md-close");
             var h3=$(".md-content h3");
-            var form=$(".md-content form");
             $('.md-trigger' ).click(function() {
                 var modal_num=$(this).attr( 'data-modal' );
                 var modal = $('#'+modal_num);
@@ -17,9 +21,6 @@ $(function(){
                 var userid=$(this).attr( 'user-id' );
                 var username=$(this).attr( 'user-name' );
                 var userpass=$(this).attr( 'user-pass' );
-                var userid_inp=$("#userid");
-                var username_inp=$("#username");
-                var userpass_inp=$("#userpass");
                 if(option==="modify"){
                     $("#userid_wrap").css('display','none');
                     //动态更改弹出框的标题和form的接受文件
@@ -58,5 +59,15 @@ $(function(){
         };
         init();
     })();
-})
-
+    form.submit(function(){
+        var flag=true;
+        if(userid_inp.val()==="" && userid_inp.val()==="" && userid_inp.val()===""){
+            flag=false;
+            layer.msg("不能全为空！", {
+                area: ['280px'],
+                offset: '50px'
+            });
+        }
+        return flag;
+    });
+});

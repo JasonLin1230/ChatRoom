@@ -12,7 +12,7 @@ $(function(){
         layer.msg(promt, {
             area: ['280px','50px']
         });
-    }else if(change_feedback!==""){
+    }else if(change_feedback!=="" && change_feedback!=="null"){
         layer.msg(change_feedback, {
             area: ['280px','50px']
         });
@@ -65,15 +65,4 @@ $(function(){
         };
         init();
     })();
-//        var out=$("#out_form");
-//        out.submit(function(){
-//            var sub_flag=true;
-//            layer.msg('你确定你很帅么？', {
-//                time: 0 //不自动关闭
-//                ,btn: ['取消', '确定']
-//                ,yes:sub_flag=false
-//                }
-//            });
-//            return sub_flag;
-//        });
 });

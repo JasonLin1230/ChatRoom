@@ -1,6 +1,6 @@
 <%-- 
-    Document   : manage
-    Created on : 2017-12-19, 19:08:55
+    Document   : query
+    Created on : 2017-12-20, 12:57:28
     Author     : JasonLin
 --%>
 
@@ -30,17 +30,31 @@
                     <th width="350px;">密码</th>
                     <th width="110px;">操作</th>
                 </tr>
-            <%
-                request.setCharacterEncoding("UTF-8");
-                Connection conn=null;
-                ResultSet sqlRst=null;
-                PreparedStatement preparedStmt=null;
-                try{
-                    conn=java.sql.DriverManager.getConnection("jdbc:mysql://localhost/javaee","root","971230");
-                    preparedStmt=conn.prepareStatement("select id,username,password from login where identity='staff'");
-                    sqlRst=preparedStmt.executeQuery();
-                    while(sqlRst.next()){
-            %>
+        <%
+            request.setCharacterEncoding("UTF-8");
+            Connection conn=null;
+            Statement stat =null;
+            ResultSet sqlRst =null;
+            String userid=request.getParameter("userid");
+            String username=request.getParameter("username");
+            String userpass=request.getParameter("password");
+            try{
+                conn=java.sql.DriverManager.getConnection("jdbc:mysql://localhost/javaee","root","971230");
+                StringBuilder sql=new StringBuilder("select * from login where 1=1");
+                if(!userid.isEmpty()){
+			sql.append(" and id like '%"+userid+"%' ");
+		}
+		if(!username.isEmpty()){
+			sql.append(" and username like '%"+username+"%' ");
+		}
+		if(!userpass.isEmpty()){
+			sql.append(" and password like '%"+userpass+"%' ");
+		}
+                sql.append(";");
+                stat=conn.createStatement();
+                sqlRst=stat.executeQuery(sql.toString());
+                while(sqlRst.next()){
+        %>
                 <tr>
                     <td><%=sqlRst.getString("id")%></td>
                     <td><%=sqlRst.getString("username")%></td>
@@ -74,7 +88,7 @@
                     <li class="input-wrap">
                         <input type="text" placeholder="用户名" name="username" id="username">
                     </li>
-<!--                    <li class="input-wrap">
+<!--                <li class="input-wrap">
                         <input required type="text" placeholder="手机号（用于找回密码）" name="phone">
                     </li>-->
                     <li class="input-wrap">

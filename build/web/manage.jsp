@@ -41,7 +41,6 @@
                     sqlRst=preparedStmt.executeQuery();
                     while(sqlRst.next()){
             %>
-            <!--<form></form>-->
                 <tr>
                     <td><%=sqlRst.getString("id")%></td>
                     <td><%=sqlRst.getString("username")%></td>
@@ -73,13 +72,13 @@
                         <input type="text"  placeholder="ID" name="userid" id="userid">
                     </li>
                     <li class="input-wrap">
-                        <input required type="text" placeholder="用户名" name="username" id="username">
+                        <input type="text" placeholder="用户名" name="username" id="username">
                     </li>
 <!--                    <li class="input-wrap">
                         <input required type="text" placeholder="手机号（用于找回密码）" name="phone">
                     </li>-->
                     <li class="input-wrap">
-                        <input required type="text" placeholder="密码" name="password" id="userpass">
+                        <input type="text" placeholder="密码" name="password" id="userpass">
                     </li>
                 </ul>
                 <div class="exp-btn-group">
@@ -92,6 +91,7 @@
     <canvas id="Mycanvas" style="z-index: -1;position:absolute;top: 0;width: 100%;height: 100%;"></canvas>
     <script src="./js/jquery.min.js"></script>
     <script src="./js/canvas.js"></script>
+    <script src="./js/layer.js"></script>
     <script src="./js/manage.js"></script>
     </body>
 </html>
