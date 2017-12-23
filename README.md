@@ -2,6 +2,8 @@
 
 *基于JSP开发的简易聊天室*
 
+[基于mvc重新开发的聊天室](https://github.com/JasonLin1230/chatroom-mvc)
+
 >JavaEE编程技术
 
 ## 功能描述
